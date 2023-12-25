@@ -4,20 +4,26 @@ import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
-public class MainForm extends JFrame implements ActionListener {
+public class MainForm extends JFrame {
 
+    // jobs = summa of (1 - VaBank, 2 - Siebel, 4 - ESB)
+    private int jobs = 0;
+    private final String[] listVBNK = {"Глебов Максим +7900", "Калдин Александр +7900", "Сидоров Дмитрий +7900", "Шибзухов Тимур +7900"};
+    private final String[] listSBL = {"Донцов Олег +7900", "Колюкаев Сергей +7900"};
+    private final String[] listESB = {"Абидов Тохир +7900", "Альпатов Андрей +7900", "Филиппов Максим +7900"};
     private final int FORM_WIDTH = 500;
     private final int FORM_HEIGHT = 700;
     Calendar calendar = Calendar.getInstance();
     //calendar.add (Calendar.DATE, 1);
     private JLabel lbl1 = new JLabel("Дата проведения работ");
     private JLabel lbl2 = new JLabel("Выберите системы для проведения работ:");
-    private JLabel lbl3 = new JLabel("Дополнительные работы");
+    private JLabel lbl3 = new JLabel("Дополнительные работы:");
     private JTextField tfDate = new JTextField();//calendar.getTime().toString());
     private JCheckBox cbVBNK = new JCheckBox();
     private JLabel lblVBNK = new JLabel("АБС ВаБанк");
+    private JCheckBox cbDT = new JCheckBox();
+    private JLabel lblDT = new JLabel("Наличие даунтайма");
     private JCheckBox cbSBL = new JCheckBox();
     private JLabel lblSBL = new JLabel("Siebel CRM");
     private JCheckBox cbESB = new JCheckBox();
@@ -29,9 +35,9 @@ public class MainForm extends JFrame implements ActionListener {
     private JLabel lblExecutorVBNK = new JLabel("Исполнитель работ на ВаБанк:");
     private JLabel lblExecutorSBL = new JLabel("Исполнитель работ на Siebel:");
     private JLabel lblExecutorESB = new JLabel("Исполнитель работ на ESB:");
-    private JComboBox cbxVBNK = new JComboBox<>();
-    private JComboBox cbxSBL = new JComboBox<>();
-    private JComboBox cbxESB = new JComboBox<>();
+    private JComboBox cbxVBNK = new JComboBox<>(listVBNK);
+    private JComboBox cbxSBL = new JComboBox<>(listSBL);
+    private JComboBox cbxESB = new JComboBox<>(listESB);
     private JButton btn1 = new JButton("Сформировать RFC");
 
     public MainForm() throws HeadlessException {
@@ -50,34 +56,90 @@ public class MainForm extends JFrame implements ActionListener {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         String curdate = date.format(formatter);
         tfDate.setText(curdate);
-        lbl2.setBounds(10, start_y+30, 300, 20);
+        lbl2.setBounds(10, start_y+30, 320, 20);
         add(lbl2);
         cbVBNK.setBounds(10, start_y+57, 25, 25);
         lblVBNK.setBounds(40, start_y+60, 100, 20);
         add(cbVBNK);
         add(lblVBNK);
+        cbVBNK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cbVBNK.isSelected()) {
+                    lblExecutorVBNK.setEnabled(true);
+                    cbxVBNK.setEnabled(true);
+                    cbDT.setEnabled(true);
+                    lblDT.setEnabled(true);
+                    jobs += 1;
+                }
+                else {
+                    lblExecutorVBNK.setEnabled(false);
+                    cbxVBNK.setEnabled(false);
+                    cbDT.setEnabled(false);
+                    lblDT.setEnabled(false);
+                    jobs -= 1;
+                }
+            }
+        });
+        cbDT.setBounds(250, start_y+57, 25, 25);
+        cbDT.setEnabled(false);
+        lblDT.setBounds(280, start_y+60, 150, 20);
+        lblDT.setEnabled(false);
+        add(cbDT);
+        add(lblDT);
         cbSBL.setBounds(10, start_y+87, 25, 25);
         lblSBL.setBounds(40, start_y+90, 100, 20);
         add(cbSBL);
         add(lblSBL);
+        cbSBL.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cbSBL.isSelected()) {
+                    lblExecutorSBL.setEnabled(true);
+                    cbxSBL.setEnabled(true);
+                    jobs += 2;
+                }
+                else {
+                    lblExecutorSBL.setEnabled(false);
+                    cbxSBL.setEnabled(false);
+                    jobs -= 2;
+                }
+            }
+        });
         cbESB.setBounds(10, start_y+117, 25, 25);
         lblESB.setBounds(40, start_y+120, 200, 20);
         add(cbESB);
         add(lblESB);
-        lblExecutorVBNK.setBounds(10, start_y+150, 200, 20);
-        cbxVBNK.setBounds(210, start_y+150, 200, 20);
+        cbESB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cbESB.isSelected()) {
+                    lblExecutorESB.setEnabled(true);
+                    cbxESB.setEnabled(true);
+                    jobs += 4;
+                }
+                else {
+                    lblExecutorESB.setEnabled(false);
+                    cbxESB.setEnabled(false);
+                    jobs -= 4;
+                }
+            }
+        });
+        lblExecutorVBNK.setBounds(10, start_y+150, 250, 20);
+        cbxVBNK.setBounds(260, start_y+150, 200, 20);
         lblExecutorVBNK.setEnabled(false);
         cbxVBNK.setEnabled(false);
         add(lblExecutorVBNK);
         add(cbxVBNK);
-        lblExecutorSBL.setBounds(10, start_y+180, 200, 20);
-        cbxSBL.setBounds(210, start_y+180, 200, 20);
+        //cbxVBNK.;
+        lblExecutorSBL.setBounds(10, start_y+180, 250, 20);
+        cbxSBL.setBounds(260, start_y+180, 200, 20);
         lblExecutorSBL.setEnabled(false);
         cbxSBL.setEnabled(false);
         add(lblExecutorSBL);
         add(cbxSBL);
-        lblExecutorESB.setBounds(10, start_y+210, 200, 20);
-        cbxESB.setBounds(210, start_y+210, 200, 20);
+        lblExecutorESB.setBounds(10, start_y+210, 250, 20);
+        cbxESB.setBounds(260, start_y+210, 200, 20);
         lblExecutorESB.setEnabled(false);
         cbxESB.setEnabled(false);
         add(lblExecutorESB);
@@ -92,7 +154,7 @@ public class MainForm extends JFrame implements ActionListener {
         lblEO.setBounds(40, start_y+300, 250, 20);
         add(cbEO);
         add(lblEO);
-        btn1.setBounds(170, 600, 150, 20);
+        btn1.setBounds(170, 600, 200, 20);
         add(btn1);
 /*        Container container = this.getContentPane();
         container.setLayout(new GridLayout(3, 2, 2, 2));
@@ -114,11 +176,6 @@ public class MainForm extends JFrame implements ActionListener {
         add(PanelESB, BorderLayout.SOUTH);
         PanelESB.add(lblExecutorESB);/**/
         setVisible(true);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 
     public static void main(String[] args) {
