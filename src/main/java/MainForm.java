@@ -8,7 +8,13 @@ import java.util.Calendar;
 public class MainForm extends JFrame {
 
     // jobs = summa of (1 - VaBank, 2 - Siebel, 4 - ESB)
-    private int jobs = 0;
+    public int jobs = 0;
+    public boolean isDT = false;
+    public boolean isSED = false;
+    public boolean isEO = false;
+    public String executorVBNK;
+    public String executorSBL;
+    public String getExecutorESB;
     private final String[] listVBNK = {"Глебов Максим +7900", "Калдин Александр +7900", "Сидоров Дмитрий +7900", "Шибзухов Тимур +7900"};
     private final String[] listSBL = {"Донцов Олег +7900", "Колюкаев Сергей +7900"};
     private final String[] listESB = {"Абидов Тохир +7900", "Альпатов Андрей +7900", "Филиппов Максим +7900"};
@@ -156,6 +162,20 @@ public class MainForm extends JFrame {
         add(lblEO);
         btn1.setBounds(170, 600, 200, 20);
         add(btn1);
+        btn1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (cbDT.isSelected()) isDT = true;
+                    if (cbSED.isSelected()) isSED = true;
+                    if (cbEO.isSelected()) isEO = true;
+                    Word word = new Word(jobs, tfDate.getText());
+                    word.BuildDoc();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 /*        Container container = this.getContentPane();
         container.setLayout(new GridLayout(3, 2, 2, 2));
         container.add(lbl1);
@@ -177,9 +197,4 @@ public class MainForm extends JFrame {
         PanelESB.add(lblExecutorESB);/**/
         setVisible(true);
     }
-
-    public static void main(String[] args) {
-        MainForm main_form = new MainForm();
-    }
-
 }
