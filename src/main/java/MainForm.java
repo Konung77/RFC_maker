@@ -9,12 +9,16 @@ public class MainForm extends JFrame {
 
     // jobs = summa of (1 - VaBank, 2 - Siebel, 4 - ESB)
     public int jobs = 0;
-    public boolean isDT = false;
-    public boolean isSED = false;
-    public boolean isEO = false;
-    public String executorVBNK;
-    public String executorSBL;
-    public String getExecutorESB;
+    public static boolean isDT = false;
+    public static boolean isSED = false;
+    public static boolean isEO = false;
+    public static boolean isVBNK = false;
+    public static boolean isSBL = false;
+    public static boolean isESB = false;
+    public static String executorVBNK;
+    public static String executorSBL;
+    public static String getExecutorESB;
+
     private final String[] listVBNK = {"Глебов Максим +7900", "Калдин Александр +7900", "Сидоров Дмитрий +7900", "Шибзухов Тимур +7900"};
     private final String[] listSBL = {"Донцов Олег +7900", "Колюкаев Сергей +7900"};
     private final String[] listESB = {"Абидов Тохир +7900", "Альпатов Андрей +7900", "Филиппов Максим +7900"};
@@ -76,14 +80,14 @@ public class MainForm extends JFrame {
                     cbxVBNK.setEnabled(true);
                     cbDT.setEnabled(true);
                     lblDT.setEnabled(true);
-                    jobs += 1;
+                    isVBNK = true;
                 }
                 else {
                     lblExecutorVBNK.setEnabled(false);
                     cbxVBNK.setEnabled(false);
                     cbDT.setEnabled(false);
                     lblDT.setEnabled(false);
-                    jobs -= 1;
+                    isVBNK = false;
                 }
             }
         });
@@ -103,12 +107,12 @@ public class MainForm extends JFrame {
                 if (cbSBL.isSelected()) {
                     lblExecutorSBL.setEnabled(true);
                     cbxSBL.setEnabled(true);
-                    jobs += 2;
+                    isSBL = true;
                 }
                 else {
                     lblExecutorSBL.setEnabled(false);
                     cbxSBL.setEnabled(false);
-                    jobs -= 2;
+                    isSBL = false;
                 }
             }
         });
@@ -122,12 +126,12 @@ public class MainForm extends JFrame {
                 if (cbESB.isSelected()) {
                     lblExecutorESB.setEnabled(true);
                     cbxESB.setEnabled(true);
-                    jobs += 4;
+                    isESB = true;
                 }
                 else {
                     lblExecutorESB.setEnabled(false);
                     cbxESB.setEnabled(false);
-                    jobs -= 4;
+                    isESB = false;
                 }
             }
         });
@@ -166,9 +170,11 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    //if ()
                     if (cbDT.isSelected()) isDT = true;
                     if (cbSED.isSelected()) isSED = true;
                     if (cbEO.isSelected()) isEO = true;
+                    if (cbVBNK.isSelected()) executorVBNK = cbxVBNK.getSelectedItem().toString();
                     Word word = new Word(jobs, tfDate.getText());
                     word.BuildDoc();
                 } catch (Exception ex) {

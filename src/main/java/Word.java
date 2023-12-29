@@ -1,4 +1,5 @@
-import com.aspose.words.Document;
+import com.aspose.words.*;
+//import com.aspose.words.ReportingEngine;
 
 public class Word {
     private int jobs;
@@ -10,6 +11,9 @@ public class Word {
         jobs = _jobs;
         date = _date;
         doc = new Document("Шаблон RFC.docx");
+        Sender sender = new Sender(date);
+        ReportingEngine engine = new ReportingEngine();
+        engine.buildReport(doc, sender, "s");
         switch (jobs) {
             case 1: filename += "_ВаБанк"; break;
             case 2: filename += "_Siebel"; break;
