@@ -10,6 +10,8 @@ public class Sender {
     private String executorSBL;
     private String executorESB;
     private String date;
+    private boolean _isVBNK = false;
+    private boolean _isSBL = false;
 
     public Sender(String _date) {
         initiator = "Маркин Станислав Олегович доб. 1321 почта markinso1@pochtabank.ru";
@@ -19,6 +21,7 @@ public class Sender {
         downtime = "на время установки патчей недоступность Ва-Банк и ДБО до 60 минут и частичная недоступность системы Siebel в рамках процессов с ВаБанком.";
         if (MainForm.isVBNK) {
             executorVBNK = MainForm.executorVBNK;
+            _isVBNK = true;
             if (systems.isEmpty()) systems += "АБС ВаБанк";
                 else systems += ", АБС ВаБанк";
             if (jobs.isEmpty()) jobs += "БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02";
@@ -71,4 +74,6 @@ public class Sender {
     public String getDate() {
         return date;
     }
+
+    public String isVBNK() { return ""; }
 }

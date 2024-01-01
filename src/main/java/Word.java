@@ -1,4 +1,6 @@
 import com.aspose.words.*;
+
+import java.util.Arrays;
 //import com.aspose.words.ReportingEngine;
 
 public class Word {
@@ -11,9 +13,6 @@ public class Word {
         jobs = _jobs;
         date = _date;
         doc = new Document("Шаблон RFC.docx");
-        Sender sender = new Sender(date);
-        ReportingEngine engine = new ReportingEngine();
-        engine.buildReport(doc, sender, "s");
         switch (jobs) {
             case 1: filename += "_ВаБанк"; break;
             case 2: filename += "_Siebel"; break;
@@ -26,6 +25,14 @@ public class Word {
     }
 
     public void BuildDoc () throws Exception {
+        DocumentBuilder builder = new DocumentBuilder(doc);
+        Table table = (Table) doc.getChild(NodeType.TABLE, 2, true);
+        for (Row row : table.getRows()) {
+            if (row.getText().contains("s.isSBL")) row.remove();
+        }
+        Sender sender = new Sender(date);
+        ReportingEngine engine = new ReportingEngine();
+        engine.buildReport(doc, sender, "s");
         doc.save(filename+"_"+date+".docx");
     }
 }
