@@ -28,7 +28,7 @@ public class Word {
         DocumentBuilder builder = new DocumentBuilder(doc);
         Table table = (Table) doc.getChild(NodeType.TABLE, 2, true);
         for (Row row : table.getRows()) {
-            if (row.getText().contains("s.isSBL")) row.remove();
+            if ((row.getText().contains("s.isSBL")) || (row.getText().contains("s.isSED"))) row.remove();
         }
         Sender sender = new Sender(date);
         ReportingEngine engine = new ReportingEngine();

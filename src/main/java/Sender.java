@@ -76,4 +76,6 @@ public class Sender {
     }
 
     public String isVBNK() { return ""; }
+
+    public String isSBL() { return ""; }
 }
