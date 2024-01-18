@@ -9,15 +9,18 @@ public class Sender {
     private String executorVBNK;
     private String executorSBL;
     private String executorESB;
-    private String date;
+    private String date, prevDate, nextDate;
     private boolean _isVBNK = false;
     private boolean _isSBL = false;
+    private boolean _isSED = false;
 
-    public Sender(String _date) {
+    public Sender(String _date, String _prevdate, String _nextdate) {
         initiator = "Маркин Станислав Олегович доб. 1321 почта markinso1@pochtabank.ru";
         curator = "Маркин Станислав";
         phone = "+7(968)891-72-72";
         date = _date;
+        prevDate = _prevdate;
+        nextDate = _nextdate;
         downtime = "на время установки патчей недоступность Ва-Банк и ДБО до 60 минут и частичная недоступность системы Siebel в рамках процессов с ВаБанком.";
         if (MainForm.isVBNK) {
             executorVBNK = MainForm.executorVBNK;
@@ -75,7 +78,18 @@ public class Sender {
         return date;
     }
 
+
+    public String getPrevDate() {
+        return prevDate;
+    }
+
+    public String getNextDate() {
+        return nextDate;
+    }
+
     public String isVBNK() { return ""; }
 
     public String isSBL() { return ""; }
+
+    public String isSED() { return ""; }
 }

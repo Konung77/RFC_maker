@@ -5,13 +5,15 @@ import java.util.Arrays;
 
 public class Word {
     private int jobs;
-    private String date;
+    private String date, prevDate, nextDate;
     private Document doc;
     private String filename = "RFC";
 
-    public Word(int _jobs, String _date) throws Exception {
+    public Word(int _jobs, String _curdate, String _prevdate, String _nextdate) throws Exception {
         jobs = _jobs;
-        date = _date;
+        date = _curdate;
+        prevDate = _prevdate;
+        nextDate = _nextdate;
         doc = new Document("Шаблон RFC.docx");
         switch (jobs) {
             case 1: filename += "_ВаБанк"; break;
@@ -30,7 +32,8 @@ public class Word {
         for (Row row : table.getRows()) {
             if ((row.getText().contains("s.isSBL")) || (row.getText().contains("s.isSED"))) row.remove();
         }
-        Sender sender = new Sender(date);
+        //if (!is)
+        Sender sender = new Sender(date, prevDate, nextDate);
         ReportingEngine engine = new ReportingEngine();
         engine.buildReport(doc, sender, "s");
         doc.save(filename+"_"+date+".docx");

@@ -20,9 +20,9 @@ public class MainForm extends JFrame {
     public static String getExecutorESB;
 
     private final String[] listInit = {"Маркин Станислав Олегович, доб. 1321, почта markinso1@pochtabank.ru", "Савин Юрий Алексеевич, доб. 1674, почта savinya@pochtabank.ru"};
-    private final String[] listVBNK = {"Глебов Максим +7(910)282-43-25", "Калдин Александр +7(950)757-13-86", "Кучеев Константин +7(951)850-07-77", "Сидоров Дмитрий +7(952)542-18-26", "Шибзухов Тимур +7(962)328-62-32"};
-    private final String[] listSBL = {"Донцов Олег +7(980)344-77-27)", "Колюкаев Сергей +7(915)543-78-95)"};
-    private final String[] listESB = {"Абидов Тохир +7900", "Альпатов Андрей +7900", "Филиппов Максим +7900"};
+    private final String[] listVBNK = {"", "Глебов Максим +7(910)282-43-25", "Калдин Александр +7(950)757-13-86", "Кучеев Константин +7(951)850-07-77", "Сидоров Дмитрий +7(952)542-18-26", "Шибзухов Тимур +7(962)328-62-32"};
+    private final String[] listSBL = {"", "Донцов Олег +7(980)344-77-27)", "Колюкаев Сергей +7(915)543-78-95)"};
+    private final String[] listESB = {"", "Абидов Тохир +7(980)559-34-31", "Альпатов Андрей +7(950)777-76-32", "Филиппов Максим +7(916)788-86-26"};
     private final int FORM_WIDTH = 500;
     private final int FORM_HEIGHT = 700;
     Calendar calendar = Calendar.getInstance();
@@ -60,14 +60,19 @@ public class MainForm extends JFrame {
         setTitle("RFC Maker");
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
         int start_y = 10;
         lbl1.setBounds(10, start_y, 200, 20);
         add(lbl1);
         tfDate.setBounds(210, start_y, 150, 20);
         add(tfDate);
         LocalDate date = LocalDate.now().plusDays(1);
+        LocalDate date1 = LocalDate.now();
+        LocalDate date2 = LocalDate.now().plusDays(3);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         String curdate = date.format(formatter);
+        String prevdate = date1.format(formatter);
+        String nextdate = date2.format(formatter);
         tfDate.setText(curdate);
         lbl2.setBounds(10, start_y+30, 320, 20);
         add(lbl2);
@@ -120,10 +125,12 @@ public class MainForm extends JFrame {
             }
         });
         cbESB.setBounds(10, start_y+117, 25, 25);
+        cbESB.setEnabled(false);
         lblESB.setBounds(40, start_y+120, 200, 20);
+        lblESB.setEnabled(false);
         add(cbESB);
         add(lblESB);
-        cbESB.addActionListener(new ActionListener() {
+        /*cbESB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (cbESB.isSelected()) {
@@ -137,7 +144,7 @@ public class MainForm extends JFrame {
                     isESB = false;
                 }
             }
-        });
+        });*/
         lblInitiator.setBounds(10, start_y+150, 250, 20);
         cbxInit.setBounds(260, start_y+150, 200, 20);
         add(lblInitiator);
@@ -165,10 +172,14 @@ public class MainForm extends JFrame {
         add(lbl3);
         cbSED.setBounds(10, start_y+297, 25, 25);
         lblSED.setBounds(40, start_y+300, 200, 20);
+        cbSED.setEnabled(false);
+        lblSED.setEnabled(false);
         add(cbSED);
         add(lblSED);
         cbEO.setBounds(10, start_y+327, 25, 25);
         lblEO.setBounds(40, start_y+330, 250, 20);
+        cbEO.setEnabled(false);
+        lblEO.setEnabled(false);
         add(cbEO);
         add(lblEO);
         btn1.setBounds(170, 600, 200, 20);
@@ -182,7 +193,7 @@ public class MainForm extends JFrame {
                     if (cbSED.isSelected()) isSED = true;
                     if (cbEO.isSelected()) isEO = true;
                     if (cbVBNK.isSelected()) executorVBNK = cbxVBNK.getSelectedItem().toString();
-                    Word word = new Word(jobs, tfDate.getText());
+                    Word word = new Word(jobs, tfDate.getText(), prevdate, nextdate);
                     word.BuildDoc();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
