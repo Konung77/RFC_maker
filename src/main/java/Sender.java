@@ -12,6 +12,7 @@ public class Sender {
     private String date, prevDate, nextDate;
     private boolean _isVBNK = false;
     private boolean _isSBL = false;
+    private boolean _isESB = false;
     private boolean _isSED = false;
 
     public Sender(String _date, String _prevdate, String _nextdate) {
@@ -25,12 +26,22 @@ public class Sender {
         if (MainForm.isVBNK) {
             executorVBNK = MainForm.executorVBNK;
             _isVBNK = true;
-            if (systems.isEmpty()) systems += "АБС ВаБанк";
-                else systems += ", АБС ВаБанк";
-            if (jobs.isEmpty()) jobs += "БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02";
-                else jobs += "; БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02";
-            if (dependencies.isEmpty()) dependencies += "АБС ВаБанк, Siebel, ДБО";
-                else dependencies += ", АБС ВаБанк, Siebel, ДБО";
+            if (!systems.isEmpty()) systems += ", ";
+            systems += "АБС ВаБанк";
+            if (!jobs.isEmpty()) jobs += "; ";
+            jobs += "БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02";
+        }
+        if (MainForm.isSBL) {
+            executorSBL = MainForm.executorSBL;
+            _isSBL = true;
+            if (!systems.isEmpty()) systems += ", ";
+            systems += "Siebel";
+            if (!jobs.isEmpty()) jobs += "; ";
+            jobs += "БД Siebel (sbldb, sblstdb); сервера Siebel (sblgw1-3, sblweb10-17, sblapp20-31)";
+        }
+        if (_isVBNK || _isSBL) {
+            if (!dependencies.isEmpty()) dependencies += ", ";
+            dependencies += "АБС ВаБанк, Siebel, ДБО";
         }
     }
 
@@ -90,6 +101,8 @@ public class Sender {
     public String isVBNK() { return ""; }
 
     public String isSBL() { return ""; }
+
+    public String isESB() { return ""; }
 
     public String isSED() { return ""; }
 }

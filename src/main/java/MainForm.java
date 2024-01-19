@@ -192,7 +192,20 @@ public class MainForm extends JFrame {
                     if (cbDT.isSelected()) isDT = true;
                     if (cbSED.isSelected()) isSED = true;
                     if (cbEO.isSelected()) isEO = true;
-                    if (cbVBNK.isSelected()) executorVBNK = cbxVBNK.getSelectedItem().toString();
+                    if (cbVBNK.isSelected()) {
+                        executorVBNK = cbxVBNK.getSelectedItem().toString();
+                        if (executorVBNK == "") {
+                            JOptionPane.showMessageDialog(null, "Необходимо выбрать исполнителя работ на ВаБанк");
+                            return;
+                        }
+                    }
+                    if (cbSBL.isSelected()) {
+                        executorSBL = cbxSBL.getSelectedItem().toString();
+                        if (executorSBL == "") {
+                            JOptionPane.showMessageDialog(null, "Необходимо выбрать исполнителя работ на Siebel");
+                            return;
+                        }
+                    }
                     Word word = new Word(jobs, tfDate.getText(), prevdate, nextdate);
                     word.BuildDoc();
                 } catch (Exception ex) {
