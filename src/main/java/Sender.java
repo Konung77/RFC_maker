@@ -11,6 +11,7 @@ public class Sender {
     private String executorESB;
     private String date, prevDate, nextDate;
     private boolean _isVBNK = false;
+    private boolean _isDT = false;
     private boolean _isSBL = false;
     private boolean _isESB = false;
     private boolean _isSED = false;
@@ -22,14 +23,16 @@ public class Sender {
         date = _date;
         prevDate = _prevdate;
         nextDate = _nextdate;
-        downtime = "на время установки патчей недоступность Ва-Банк и ДБО до 60 минут и частичная недоступность системы Siebel в рамках процессов с ВаБанком.";
+        if (MainForm.isDT) downtime = "на время установки патчей недоступность Ва-Банк и ДБО до 60 минут и частичная недоступность системы Siebel в рамках процессов с ВаБанком";
+        else downtime = "не предусмотрен при штатном поведении систем";
         if (MainForm.isVBNK) {
             executorVBNK = MainForm.executorVBNK;
             _isVBNK = true;
             if (!systems.isEmpty()) systems += ", ";
             systems += "АБС ВаБанк";
             if (!jobs.isEmpty()) jobs += "; ";
-            jobs += "БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02";
+            if (MainForm.isDT) jobs += "БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02";
+            else jobs += "БД ВаБанк АБС: vabank4, vabank5";
         }
         if (MainForm.isSBL) {
             executorSBL = MainForm.executorSBL;
@@ -41,7 +44,8 @@ public class Sender {
         }
         if (_isVBNK || _isSBL) {
             if (!dependencies.isEmpty()) dependencies += ", ";
-            dependencies += "АБС ВаБанк, Siebel, ДБО";
+            if (MainForm.isDT) dependencies += "АБС ВаБанк, Siebel, ДБО";
+            else dependencies += "АБС ВаБанк";
         }
     }
 
@@ -89,7 +93,6 @@ public class Sender {
         return date;
     }
 
-
     public String getPrevDate() {
         return prevDate;
     }
@@ -98,7 +101,14 @@ public class Sender {
         return nextDate;
     }
 
+    public String getEndTime() {
+        if (MainForm.isVBNK && !MainForm.isDT) return "01:30";
+        else return "02:30";
+    }
+
     public String isVBNK() { return ""; }
+
+    public String isDT() { return ""; }
 
     public String isSBL() { return ""; }
 

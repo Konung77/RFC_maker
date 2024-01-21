@@ -9,7 +9,7 @@ public class MainForm extends JFrame {
 
     // jobs = summa of (1 - VaBank, 2 - Siebel, 4 - ESB)
     public int jobs = 0;
-    public static boolean isDT = false;
+    public static boolean isDT = true;
     public static boolean isSED = false;
     public static boolean isEO = false;
     public static boolean isVBNK = false;
@@ -101,10 +101,18 @@ public class MainForm extends JFrame {
         });
         cbDT.setBounds(250, start_y+57, 25, 25);
         cbDT.setEnabled(false);
+        cbDT.setSelected(true);
         lblDT.setBounds(280, start_y+60, 150, 20);
         lblDT.setEnabled(false);
         add(cbDT);
         add(lblDT);
+        cbDT.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cbDT.isSelected()) isDT = true;
+                else isDT = false;
+            }
+        });
         cbSBL.setBounds(10, start_y+87, 25, 25);
         lblSBL.setBounds(40, start_y+90, 100, 20);
         add(cbSBL);
@@ -155,7 +163,6 @@ public class MainForm extends JFrame {
         cbxVBNK.setEnabled(false);
         add(lblExecutorVBNK);
         add(cbxVBNK);
-        //cbxVBNK.;
         lblExecutorSBL.setBounds(10, start_y+210, 250, 20);
         cbxSBL.setBounds(260, start_y+210, 200, 20);
         lblExecutorSBL.setEnabled(false);
@@ -188,7 +195,6 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    //if ()
                     if (cbDT.isSelected()) isDT = true;
                     if (cbSED.isSelected()) isSED = true;
                     if (cbEO.isSelected()) isEO = true;
