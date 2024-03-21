@@ -106,6 +106,11 @@ public class Sender {
         else return "02:30";
     }
 
+    public String getPatchName() {
+        if (MainForm.isVBNK) return MainForm.patchName;
+        else return "";
+    }
+
     public String isVBNK() { return ""; }
 
     public String isDT() { return ""; }

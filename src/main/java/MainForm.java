@@ -18,6 +18,7 @@ public class MainForm extends JFrame {
     public static String executorVBNK;
     public static String executorSBL;
     public static String getExecutorESB;
+    public static String patchName;
 
     private final String[] listInit = {"Маркин Станислав Олегович, доб. 1321, почта markinso1@pochtabank.ru", "Савин Юрий Алексеевич, доб. 1674, почта savinya@pochtabank.ru"};
     private final String[] listVBNK = {"", "Глебов Максим +7(910)282-43-25", "Калдин Александр +7(950)757-13-86", "Кучеев Константин +7(951)850-07-77", "Сидоров Дмитрий +7(952)542-18-26", "Шибзухов Тимур +7(962)328-62-32"};
@@ -56,7 +57,7 @@ public class MainForm extends JFrame {
     public MainForm() throws HeadlessException {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension dim = toolkit.getScreenSize();
-        setBounds((dim.width-FORM_WIDTH)/2, 100, FORM_WIDTH, FORM_HEIGHT);
+        setBounds((dim.width-FORM_WIDTH)/2, 10, FORM_WIDTH, FORM_HEIGHT);
         setTitle("RFC Maker");
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -70,7 +71,9 @@ public class MainForm extends JFrame {
         LocalDate date1 = LocalDate.now();
         LocalDate date2 = LocalDate.now().plusDays(3);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyMMdd");
         String curdate = date.format(formatter);
+        patchName = date.format(formatter1);
         String prevdate = date1.format(formatter);
         String nextdate = date2.format(formatter);
         tfDate.setText(curdate);

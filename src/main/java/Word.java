@@ -1,7 +1,6 @@
 import com.aspose.words.*;
-import com.aspose.words.net.System.Data.DataSet;
 
-import java.util.Arrays;
+import javax.swing.*;
 //import com.aspose.words.ReportingEngine;
 
 public class Word {
@@ -38,31 +37,47 @@ public class Word {
         Table tableCancelSED = (Table) doc.getChild(NodeType.TABLE, 5, true);
         Table tableVBNK = (Table) doc.getChild(NodeType.TABLE, 6, true);
         Table tableSBL = (Table) doc.getChild(NodeType.TABLE, 7, true);
+        //Table tableESB = (Table) doc.getChild(NodeType.TABLE, 9, true);
+        //Table tableSED = (Table) doc.getChild(NodeType.TABLE, 10, true);
+        Node[] nodes = doc.getChildNodes(NodeType.PARAGRAPH, true).toArray();
+        Paragraph[] rows = new Paragraph[nodes.length];
+        for (int i = 0; i < rows.length; i++)
+            rows[i] = (Paragraph) doc.getChild(NodeType.PARAGRAPH, i, true);
+        for (Paragraph row : rows) {
+            if (!MainForm.isSBL)
+                if (row.getText().contains("Приложение 2")) row.remove();
+            if (MainForm.isVBNK && !MainForm.isDT)
+                if (row.getText().contains("Приложение 1")) row.remove();
+            if (!MainForm.isSED)
+                if (row.getText().contains("План отката доработок СЭД Пенсионер")) row.remove();
+            if (!MainForm.isESB)
+                if (row.getText().contains("План отката на корпоративной интеграционной шине")) row.remove();
+        }
         if (MainForm.isVBNK && !MainForm.isDT) {
             for (Row row : table.getRows())
                 if (row.getText().contains("s.isDT")) row.remove();
-            doc.getRange().replace("Запрос в ДС и Уведомление ДС", "Уведомление ДС");
-            doc.getRange().replace("Приложение 1", "");
+            doc.getRange().replace("Запрос в ДС и ", "");
+            //doc.getRange().replace("Приложение 1", "");
             tableVBNK.remove();
         }
         if (!MainForm.isSBL) {
             for (Row row : table.getRows())
                 if (row.getText().contains("s.isSBL")) row.remove();
-            doc.getRange().replace("Приложение 2", "");
+            //doc.getRange().replace("Приложение 2", "");
             tableSBL.remove();
-            doc.getRange().replace("по шаблону из Приложения 1 и Приложения 2", "по шаблону из Приложения");
+            doc.getRange().replace("1 и Приложения 2", "");
         }
         if (!MainForm.isSED) {
             for (Row row : table.getRows())
                 if (row.getText().contains("s.isSED")) row.remove();
-            //FindReplaceOptions finder = new FindReplaceOptions();
-            //finder.setDirection(FindReplaceDirection.FORWARD);
-            doc.getRange().replace("План отката доработок СЭД Пенсионер", "");
+            //doc.getRange().replace("План отката доработок СЭД Пенсионер", "");
             tableCancelSED.remove();
+            //tableSED.remove();
         }
         if (!MainForm.isESB) {
             tableCancelESB.remove();
-            doc.getRange().replace("План отката на корпоративной интеграционной шине (ESB):", "");/**/
+            //tableESB.remove();
+            //doc.getRange().replace("План отката на корпоративной интеграционной шине (ESB):", "");/**/
             doc.getRange().replace("После выполнения работ на ESB", "");/**/
         }
         //if (!MainForm.isSED) tableCancelSED.remove();
