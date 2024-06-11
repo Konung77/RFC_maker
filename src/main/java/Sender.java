@@ -107,7 +107,10 @@ public class Sender {
     }
 
     public String getPatchName() {
-        if (MainForm.isVBNK) return MainForm.patchName;
+        if (MainForm.isVBNK) {
+            if (MainForm.isDT) return MainForm.patchName;
+            else return MainForm.patchName+"#TUNE";
+        }
         else return "";
     }
 

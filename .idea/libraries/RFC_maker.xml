@@ -1,9 +1,10 @@
 <component name="libraryTable">
   <library name="RFC_maker">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/out/artifacts/RFC_maker_jar/RFC_maker.jar!/" />
+      <root url="file://$PROJECT_DIR$/libs" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/libs" recursive="false" />
   </library>
 </component>

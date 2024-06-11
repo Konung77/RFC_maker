@@ -21,7 +21,7 @@ public class MainForm extends JFrame {
     public static String patchName;
 
     private final String[] listInit = {"Маркин Станислав Олегович, доб. 1321, почта markinso1@pochtabank.ru", "Савин Юрий Алексеевич, доб. 1674, почта savinya@pochtabank.ru"};
-    private final String[] listVBNK = {"", "Глебов Максим +7(910)282-43-25", "Калдин Александр +7(950)757-13-86", "Кучеев Константин +7(951)850-07-77", "Сидоров Дмитрий +7(952)542-18-26", "Шибзухов Тимур +7(962)328-62-32"};
+    private final String[] listVBNK = {"", "Глебов Максим +7(900)961-96-82", "Калдин Александр +7(950)757-13-86", "Кучеев Константин +7(951)850-07-77", "Сидоров Дмитрий +7(952)542-18-26", "Шибзухов Тимур +7(962)328-62-32"};
     private final String[] listSBL = {"", "Донцов Олег +7(980)344-77-27)", "Колюкаев Сергей +7(915)543-78-95)"};
     private final String[] listESB = {"", "Абидов Тохир +7(980)559-34-31", "Альпатов Андрей +7(950)777-76-32", "Филиппов Максим +7(916)788-86-26"};
     private final int FORM_WIDTH = 500;
@@ -73,7 +73,7 @@ public class MainForm extends JFrame {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyMMdd");
         String curdate = date.format(formatter);
-        patchName = date.format(formatter1);
+        //patchName = date.format(formatter1);
         String prevdate = date1.format(formatter);
         String nextdate = date2.format(formatter);
         tfDate.setText(curdate);
@@ -207,6 +207,8 @@ public class MainForm extends JFrame {
                             JOptionPane.showMessageDialog(null, "Необходимо выбрать исполнителя работ на ВаБанк");
                             return;
                         }
+                        LocalDate date = LocalDate.parse(tfDate.getText(), formatter);
+                        patchName = date.format(formatter1);
                     }
                     if (cbSBL.isSelected()) {
                         executorSBL = cbxSBL.getSelectedItem().toString();

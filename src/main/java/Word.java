@@ -15,8 +15,8 @@ public class Word {
         prevDate = _prevdate;
         nextDate = _nextdate;
         doc = new Document("Шаблон RFC.docx");
-        if (MainForm.isVBNK) filename += "_ВаБанк";
         if (MainForm.isSBL) filename += "_Siebel";
+        if (MainForm.isVBNK) filename += "_ВаБанк";
         if (MainForm.isESB) filename += "_ESB";
         /*switch (jobs) {
             case 1: filename += "_ВаБанк"; break;
@@ -57,7 +57,7 @@ public class Word {
             for (Row row : table.getRows())
                 if (row.getText().contains("s.isDT")) row.remove();
             doc.getRange().replace("Запрос в ДС и ", "");
-            //doc.getRange().replace("Приложение 1", "");
+            doc.getRange().replace("30 мин", "15 мин");
             tableVBNK.remove();
         }
         if (!MainForm.isSBL) {
@@ -85,5 +85,6 @@ public class Word {
         ReportingEngine engine = new ReportingEngine();
         engine.buildReport(doc, sender, "s");
         doc.save(filename+"_"+date+".docx");
+        JOptionPane.showMessageDialog(null, "Файл RFC сформирован");
     }
 }
