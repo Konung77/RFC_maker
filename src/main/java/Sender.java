@@ -89,6 +89,7 @@ public class Sender {
         return executorESB;
     }
 
+    // Текущая дата?
     public String getDate() {
         return date;
     }
@@ -101,11 +102,13 @@ public class Sender {
         return nextDate;
     }
 
+    // Если работы без ДТ, то окончание в 01:30, иначе в 02:30
     public String getEndTime() {
         if (MainForm.isVBNK && !MainForm.isDT) return "01:30";
         else return "02:30";
     }
 
+    // Если установка на ВаБанк без ДТ, то название патча нестандартное
     public String getPatchName() {
         if (MainForm.isVBNK) {
             if (MainForm.isDT) return MainForm.patchName;
@@ -114,6 +117,7 @@ public class Sender {
         else return "";
     }
 
+    // Удаление служебных отметок в файле RFC
     public String isVBNK() { return ""; }
 
     public String isDT() { return ""; }

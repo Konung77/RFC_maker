@@ -1,7 +1,6 @@
 import com.aspose.words.*;
 
 import javax.swing.*;
-//import com.aspose.words.ReportingEngine;
 
 public class Word {
     private int jobs;
@@ -39,20 +38,9 @@ public class Word {
         Table tableSBL = (Table) doc.getChild(NodeType.TABLE, 7, true);
         //Table tableESB = (Table) doc.getChild(NodeType.TABLE, 9, true);
         //Table tableSED = (Table) doc.getChild(NodeType.TABLE, 10, true);
-        Node[] nodes = doc.getChildNodes(NodeType.PARAGRAPH, true).toArray();
-        Paragraph[] rows = new Paragraph[nodes.length];
-        for (int i = 0; i < rows.length; i++)
-            rows[i] = (Paragraph) doc.getChild(NodeType.PARAGRAPH, i, true);
-        for (Paragraph row : rows) {
-            if (!MainForm.isSBL)
-                if (row.getText().contains("Приложение 2")) row.remove();
-            if (MainForm.isVBNK && !MainForm.isDT)
-                if (row.getText().contains("Приложение 1")) row.remove();
-            if (!MainForm.isSED)
-                if (row.getText().contains("План отката доработок СЭД Пенсионер")) row.remove();
-            if (!MainForm.isESB)
-                if (row.getText().contains("План отката на корпоративной интеграционной шине")) row.remove();
-        }
+
+        // Удаляем лишние строки в таблице
+        // При работах на ВаБанк без ДТ на патч ставим 15 мин вместо 30
         if (MainForm.isVBNK && !MainForm.isDT) {
             for (Row row : table.getRows())
                 if (row.getText().contains("s.isDT")) row.remove();
@@ -81,6 +69,29 @@ public class Word {
             doc.getRange().replace("После выполнения работ на ESB", "");/**/
         }
         //if (!MainForm.isSED) tableCancelSED.remove();
+
+        Node[] nodes = doc.getChildNodes(NodeType.PARAGRAPH, true).toArray();
+        Paragraph[] rows = new Paragraph[nodes.length];
+        // Удаляем лишние строки в документе вне таблицы
+        for (int i = 0; i < rows.length; i++)
+            rows[i] = (Paragraph) doc.getChild(NodeType.PARAGRAPH, i, true);
+        for (Paragraph row : rows) {
+            if (!MainForm.isSBL)
+                if (row.getText().contains("Приложение 2")) row.remove();
+            if (MainForm.isVBNK) {
+                if (row.getText().contains("Приложение 1")) row.remove();
+                if (!MainForm.isDT)
+                    if (row.getText().contains("s.isDT()")) row.remove();
+            }
+            if (!MainForm.isSED) {
+                //if (row.getText().contains("План отката доработок СЭД Пенсионер")) row.remove();
+                if (row.getText().contains("s.isSED()")) row.remove();
+            }
+            if (!MainForm.isESB) {
+                //if (row.getText().contains("План отката на корпоративной интеграционной шине")) row.remove();
+                if (row.getText().contains("s.isESB()")) row.remove();
+            }
+        }
         Sender sender = new Sender(date, prevDate, nextDate);
         ReportingEngine engine = new ReportingEngine();
         engine.buildReport(doc, sender, "s");

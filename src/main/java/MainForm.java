@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -205,6 +206,11 @@ public class MainForm extends JFrame {
                         executorVBNK = cbxVBNK.getSelectedItem().toString();
                         if (executorVBNK == "") {
                             JOptionPane.showMessageDialog(null, "Необходимо выбрать исполнителя работ на ВаБанк");
+                            return;
+                        }
+                        File f = new File("Шаблон RFC.docx");
+                        if(!f.exists()) {
+                            JOptionPane.showMessageDialog(null, "Файл шаблона отсутствует");
                             return;
                         }
                         LocalDate date = LocalDate.parse(tfDate.getText(), formatter);
