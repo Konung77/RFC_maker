@@ -11,6 +11,8 @@ public class MainForm extends JFrame {
     // jobs = summa of (1 - VaBank, 2 - Siebel, 4 - ESB)
     public int jobs = 0;
     public static boolean isDT = true;
+    public static boolean isSBLScript = true;
+    public static boolean isSBLRelease = false;
     public static boolean isSED = false;
     public static boolean isEO = false;
     public static boolean isVBNK = false;
@@ -37,8 +39,12 @@ public class MainForm extends JFrame {
     private JLabel lblVBNK = new JLabel("АБС ВаБанк");
     private JCheckBox cbDT = new JCheckBox();
     private JLabel lblDT = new JLabel("Наличие даунтайма");
+    private JCheckBox cbSBLScript = new JCheckBox();
+    private JLabel lblSBLScript = new JLabel("Наличие скриптов в БД Siebel");
     private JCheckBox cbSBL = new JCheckBox();
     private JLabel lblSBL = new JLabel("Siebel CRM");
+    private JCheckBox cbSBLRelease = new JCheckBox();
+    private JLabel lblSBLRelease = new JLabel("Релиз новой версии");
     private JCheckBox cbESB = new JCheckBox();
     private JLabel lblESB = new JLabel("Интеграционная шина (ESB)");
     private JCheckBox cbSED = new JCheckBox();
@@ -80,8 +86,8 @@ public class MainForm extends JFrame {
         tfDate.setText(curdate);
         lbl2.setBounds(10, start_y+30, 320, 20);
         add(lbl2);
-        cbVBNK.setBounds(10, start_y+57, 25, 25);
-        lblVBNK.setBounds(40, start_y+60, 100, 20);
+        cbVBNK.setBounds(10, start_y+lbl2.getY()+27, 25, 25);
+        lblVBNK.setBounds(40, start_y+ lbl2.getY()+30, 100, 20);
         add(cbVBNK);
         add(lblVBNK);
         cbVBNK.addActionListener(new ActionListener() {
@@ -92,6 +98,8 @@ public class MainForm extends JFrame {
                     cbxVBNK.setEnabled(true);
                     cbDT.setEnabled(true);
                     lblDT.setEnabled(true);
+                    cbSBLScript.setEnabled(true);
+                    lblSBLScript.setEnabled(true);
                     isVBNK = true;
                 }
                 else {
@@ -99,14 +107,16 @@ public class MainForm extends JFrame {
                     cbxVBNK.setEnabled(false);
                     cbDT.setEnabled(false);
                     lblDT.setEnabled(false);
+                    cbSBLScript.setEnabled(false);
+                    lblSBLScript.setEnabled(false);
                     isVBNK = false;
                 }
             }
         });
-        cbDT.setBounds(250, start_y+57, 25, 25);
+        cbDT.setBounds(250, start_y+lbl2.getY()+27, 25, 25);
         cbDT.setEnabled(false);
         cbDT.setSelected(true);
-        lblDT.setBounds(280, start_y+60, 150, 20);
+        lblDT.setBounds(280, start_y+ lbl2.getY()+30, 150, 20);
         lblDT.setEnabled(false);
         add(cbDT);
         add(lblDT);
@@ -117,8 +127,22 @@ public class MainForm extends JFrame {
                 else isDT = false;
             }
         });
-        cbSBL.setBounds(10, start_y+87, 25, 25);
-        lblSBL.setBounds(40, start_y+90, 100, 20);
+        cbSBLScript.setBounds(250, start_y+cbDT.getY()+30, 25, 25);
+        cbSBLScript.setEnabled(false);
+        cbSBLScript.setSelected(true);
+        lblSBLScript.setBounds(280, start_y+lblDT.getY()+30, 220, 20);
+        lblSBLScript.setEnabled(false);
+        add(cbSBLScript);
+        add(lblSBLScript);
+        cbSBLScript.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cbSBLScript.isSelected()) isSBLScript = true;
+                else isSBLScript = false;
+            }
+        });
+        cbSBL.setBounds(10, start_y+cbSBLScript.getY()+30, 25, 25);
+        lblSBL.setBounds(40, start_y+lblSBLScript.getY()+30, 100, 20);
         add(cbSBL);
         add(lblSBL);
         cbSBL.addActionListener(new ActionListener() {
@@ -127,18 +151,36 @@ public class MainForm extends JFrame {
                 if (cbSBL.isSelected()) {
                     lblExecutorSBL.setEnabled(true);
                     cbxSBL.setEnabled(true);
+                    lblSBLRelease.setEnabled(true);
+                    cbSBLRelease.setEnabled(true);
                     isSBL = true;
                 }
                 else {
                     lblExecutorSBL.setEnabled(false);
                     cbxSBL.setEnabled(false);
+                    lblSBLRelease.setEnabled(false);
+                    cbSBLRelease.setEnabled(false);
                     isSBL = false;
                 }
             }
         });
-        cbESB.setBounds(10, start_y+117, 25, 25);
+        cbSBLRelease.setBounds(250, start_y+cbSBLScript.getY()+30, 25, 25);
+        cbSBLRelease.setEnabled(false);
+        cbSBLRelease.setSelected(false);
+        lblSBLRelease.setBounds(280, start_y+lblSBLScript.getY()+30, 150, 20);
+        lblSBLRelease.setEnabled(false);
+        add(cbSBLRelease);
+        add(lblSBLRelease);
+        cbSBLRelease.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (cbSBLRelease.isSelected()) isSBLRelease = true;
+                else isSBLRelease = false;
+            }
+        });
+        cbESB.setBounds(10, start_y+lblSBL.getY()+27, 25, 25);
         cbESB.setEnabled(false);
-        lblESB.setBounds(40, start_y+120, 200, 20);
+        lblESB.setBounds(40, start_y+lblSBL.getY()+30, 200, 20);
         lblESB.setEnabled(false);
         add(cbESB);
         add(lblESB);
@@ -157,38 +199,38 @@ public class MainForm extends JFrame {
                 }
             }
         });*/
-        lblInitiator.setBounds(10, start_y+150, 250, 20);
-        cbxInit.setBounds(260, start_y+150, 200, 20);
+        lblInitiator.setBounds(10, start_y+lblESB.getY()+30, 250, 20);
+        cbxInit.setBounds(260, start_y+lblESB.getY()+30, 200, 20);
         add(lblInitiator);
         add(cbxInit);
-        lblExecutorVBNK.setBounds(10, start_y+180, 250, 20);
-        cbxVBNK.setBounds(260, start_y+180, 200, 20);
+        lblExecutorVBNK.setBounds(10, start_y+lblInitiator.getY()+30, 250, 20);
+        cbxVBNK.setBounds(260, start_y+cbxInit.getY()+30, 200, 20);
         lblExecutorVBNK.setEnabled(false);
         cbxVBNK.setEnabled(false);
         add(lblExecutorVBNK);
         add(cbxVBNK);
-        lblExecutorSBL.setBounds(10, start_y+210, 250, 20);
-        cbxSBL.setBounds(260, start_y+210, 200, 20);
+        lblExecutorSBL.setBounds(10, start_y+lblExecutorVBNK.getY()+30, 250, 20);
+        cbxSBL.setBounds(260, start_y+cbxVBNK.getY()+30, 200, 20);
         lblExecutorSBL.setEnabled(false);
         cbxSBL.setEnabled(false);
         add(lblExecutorSBL);
         add(cbxSBL);
-        lblExecutorESB.setBounds(10, start_y+240, 250, 20);
-        cbxESB.setBounds(260, start_y+240, 200, 20);
+        lblExecutorESB.setBounds(10, start_y+lblExecutorSBL.getY()+30, 250, 20);
+        cbxESB.setBounds(260, start_y+cbxSBL.getY()+30, 200, 20);
         lblExecutorESB.setEnabled(false);
         cbxESB.setEnabled(false);
         add(lblExecutorESB);
         add(cbxESB);
-        lbl3.setBounds(10, start_y+270, 300, 20);
+        lbl3.setBounds(10, start_y+lblExecutorESB.getY()+30, 300, 20);
         add(lbl3);
-        cbSED.setBounds(10, start_y+297, 25, 25);
-        lblSED.setBounds(40, start_y+300, 200, 20);
+        cbSED.setBounds(10, start_y+lbl3.getY()+27, 25, 25);
+        lblSED.setBounds(40, start_y+lbl3.getY()+30, 200, 20);
         cbSED.setEnabled(false);
         lblSED.setEnabled(false);
         add(cbSED);
         add(lblSED);
-        cbEO.setBounds(10, start_y+327, 25, 25);
-        lblEO.setBounds(40, start_y+330, 250, 20);
+        cbEO.setBounds(10, start_y+cbSED.getY()+30, 25, 25);
+        lblEO.setBounds(40, start_y+lblSED.getY()+30, 250, 20);
         cbEO.setEnabled(false);
         lblEO.setEnabled(false);
         add(cbEO);

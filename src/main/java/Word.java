@@ -48,9 +48,13 @@ public class Word {
             doc.getRange().replace("30 мин", "15 мин");
             tableVBNK.remove();
         }
+        if (!MainForm.isSBLScript)
+            for (Row row : table.getRows())
+                if (row.getText().contains("s.isSBLScript")) row.remove();
+            //doc.getRange().replace("Выполнить скрипт на БД Siebel:", "");
         if (!MainForm.isSBL) {
             for (Row row : table.getRows())
-                if (row.getText().contains("s.isSBL")) row.remove();
+                if (row.getText().contains("s.isSBL()")) row.remove();
             //doc.getRange().replace("Приложение 2", "");
             tableSBL.remove();
             doc.getRange().replace("1 и Приложения 2", "");

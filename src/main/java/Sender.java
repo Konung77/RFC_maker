@@ -23,7 +23,7 @@ public class Sender {
         date = _date;
         prevDate = _prevdate;
         nextDate = _nextdate;
-        if (MainForm.isDT) downtime = "на время установки патчей недоступность Ва-Банк и ДБО до 60 минут и частичная недоступность системы Siebel в рамках процессов с ВаБанком";
+        if (MainForm.isDT) downtime = "на время установки патчей полная недоступность Ва-Банк до 60 минут, частичная недоступность систем ДБО и Siebel в рамках процессов с ВаБанком";
         else downtime = "не предусмотрен при штатном поведении систем";
         if (MainForm.isVBNK) {
             executorVBNK = MainForm.executorVBNK;
@@ -31,7 +31,9 @@ public class Sender {
             if (!systems.isEmpty()) systems += ", ";
             systems += "АБС ВаБанк";
             if (!jobs.isEmpty()) jobs += "; ";
-            if (MainForm.isDT) jobs += "БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02";
+            if (MainForm.isDT) jobs += "БД ВаБанк АБС: vabank4, vabank5, vabank6; сервера приложений: VBNKAPPPRD05, VBNKAPPPRD06, appabs02;\13" +
+                    "БД Siebel: sblprd3, sblprd4;\13" +
+                    "сервера приложений ESB: esbci01, esbmainprd03, esbmainprd04, esbdboprd03, esbdboprd04";
             else jobs += "БД ВаБанк АБС: vabank4, vabank5";
         }
         if (MainForm.isSBL) {
@@ -123,6 +125,8 @@ public class Sender {
     public String isDT() { return ""; }
 
     public String isSBL() { return ""; }
+
+    public String isSBLScript() { return ""; }
 
     public String isESB() { return ""; }
 
